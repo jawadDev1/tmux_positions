@@ -2,14 +2,14 @@
 
     <h1 class="text-2xl text-bold ">New Job</h1>
 
-    <x-forms.form method="POST" action="/jobs" enctype="multipart/form-data">
+    <x-forms.form method="POST" action="/" enctype="multipart/form-data">
 
         <x-forms.input name="title" label="Title" />
         <x-forms.input name="salary" label="Salary" />
         <x-forms.input name="location" label="Location" />
         <x-forms.input name="url" label="URL" />
 
-        <x-forms.select label="Schedule" label="schedule">
+        <x-forms.select label="Schedule" name="schedule">
             <option value="Part Time">Part Time</option>
             <option value="Full Time">Full Time</option>
         </x-forms.select>

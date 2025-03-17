@@ -29,17 +29,25 @@
                 <a class="hover:text-gray-400" href="#">Companies</a>
             </div>
             <div>
-                
+
                 @auth
-                    <a href="/jobs/create">Post a Job</a>
+                    <div class="flex gap-x-3">
+                        <a href="/jobs/create">Post a Job</a>
+                        <form method="POST" action="/logout">
+                            @csrf
+                            @method('DELETE')
+
+                            <button class="cursor-pointer" >Logout</button>
+                        </form>
+                    </div>
                 @endauth
 
                 @guest
-                <div class="font-bold space-x-3">
-                    <a class="hover:text-gray-400" href="/register">Register</a>
-                    <a class="hover:text-gray-400" href="/login">Login</a>
-                    
-                </div>
+                    <div class="font-bold space-x-3">
+                        <a class="hover:text-gray-400" href="/register">Register</a>
+                        <a class="hover:text-gray-400" href="/login">Login</a>
+
+                    </div>
                 @endguest
 
             </div>

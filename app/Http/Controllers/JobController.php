@@ -17,11 +17,11 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = Job::all()->groupBy('featured');
-
+        $jobs = Job::latest()->with(['employer', 'tags'])->get()->groupBy('featured');
+        
         return view("jobs.index", [
-            "featured_jobs" => $jobs[0],
-            "jobs" => $jobs[1],
+            "featured_jobs" => $jobs[1],
+            "jobs" => $jobs[0],
             "tags" => Tag::all()
         ]);
     }
@@ -37,19 +37,20 @@ class JobController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreJobRequest $request)
+    public function store()
     {
-        $jobAttributes = $request->validate([
+
+
+        $jobAttributes = request()->validate([
             "title" => ['required'],
             "salary" => ['required'],
             "location" => ['required'],
-            "url" => ['required', 'active_url'],
-            "featured" => ['boolean'],
+            "url" => ['required'],
             "tags" => ['nullable'],
             "schedule" => ['required', Rule::in(['Part Time', 'Full Time'])],
         ]);
 
-        $jobAttributes['featured'] = $request->has('featured');
+        $jobAttributes['featured'] = request()->has('featured');
 
         $job = Auth::user()->employer->jobs()->create(Arr::except($jobAttributes, 'tags'));
 
@@ -58,6 +59,8 @@ class JobController extends Controller
                 $job->tag($tag);
             }
         }
+
+        return redirect('/');
     }
 
     /**
